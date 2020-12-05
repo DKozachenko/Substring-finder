@@ -29,6 +29,8 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  position: relative;
 }
 
 .title {
@@ -94,8 +96,46 @@ body {
   cursor: pointer;
 }
 
+.notice {
+  position: absolute;
+  right: 3rem;
+  top: 3rem;
+  z-index: 1;
+
+  display: none;
+  width: 15rem;
+  padding: .5rem;
+
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  text-align: center;
+  line-height: 1.2;
+  color: black;
+  
+  border-radius: .7rem;
+}
+
 @media (max-width: 750px) {
   .textarea {
     width: 75%;
+  }
+
+  .notice {
+    bottom: 3rem;
+    top: initial;
+  }
+}
+
+@media (max-width: 500px) {
+  .notice {
+    width: auto;
+    left: 3rem;
+    right: 3rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .notice {
+    font-size: 1.1rem;
   }
 }

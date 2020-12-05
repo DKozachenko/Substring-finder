@@ -1,7 +1,8 @@
 'use strict'
 
 const input = document.querySelector('input[type="file"]'),
-  wrapper = document.querySelector('.wrapper');
+  wrapper = document.querySelector('.wrapper'),
+  notice = document.querySelector('.notice');
 //проверка на формат файла
 const checkFileFormat = (name) => {
   let indTochka = 0, format = "";
@@ -88,11 +89,21 @@ const createTableSdvig = (str, subStr, symbolOfSdvig, numberOfSdvig, mas) => {
 	} while (!isFounded && konechInd <= dlinaStroka);
 	//если мы просто прошли, но не нашли подстроку
 	if (!isFounded) {
-    alert('Здесь нет вашей строки');
     return false;
   }
   return true;
 }
+
+const showNotice = (text, color) => {
+  notice.textContent = text;
+  notice.style.backgroundColor = color;
+  notice.style.display = 'block';
+}
+
+const hideNotice = () => {
+  notice.style.display = 'none';
+}
+
 //выделение слова
 const setInputSelection = (() => {
     const offsetToRangeCharacterMove = (el, offset) => {
@@ -139,11 +150,6 @@ input.addEventListener('change', () => {
       textarea.classList = 'textarea';
       wrapper.append(textarea);
       textarea.value = text;
-      
-      // const height = textarea.scrollHeight;
-      // const heightString = 18;
-      // const numStr = Math.floor(height / heightString);
-      // console.log(numStr);
 
       const title = document.createElement('h2');
       title.classList = 'title';
@@ -176,7 +182,7 @@ input.addEventListener('change', () => {
               --dlinaTableSdvig;
             }
           }  
-          // //вывожу чисто для проверки
+          // //вывод чисто для проверки
           // console.log("their sdvigi");
           // for (let i = 0; i < dlinaTableSdvig ; ++i) {
           //   console.log(sdvigNumber[i]);
@@ -184,14 +190,28 @@ input.addEventListener('change', () => {
           //console.log("all sdvigi");
           let start = 0, end = 0, table = [];
           if (createTableSdvig(text, subStroka, sdvigSymbol, sdvigNumber, table)) {
+            //если нет скролла
+            if (textarea.clientHeight == textarea.scrollHeight) {
+              showNotice('Ваша строка нашлась', '#41e23e');
+            } else {
+              showNotice('Ваша строка нашлась, можете проскроллить', '#41e23e');
+            }
+            //скрыть оповещение через 3 сек
+            setTimeout(hideNotice, 3000);
+            
             for (let i = 0; i < table.length; ++i) {
               //console.log(table[i]);
               start += table[i];
             }
+
             end = start + dlinaSubStroka;          
             setInputSelection(textarea, start, end);
             textarea.scrollTop = 0;
+          } else {
+            showNotice('Здесь нет вашей строки', '#ea2c2c');
+            setTimeout(hideNotice, 3000);
           }
+
         } else {
           alert('Вы не ввели строку');
         }
