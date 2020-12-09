@@ -150,6 +150,7 @@ input.addEventListener('change', () => {
       textarea.classList = 'textarea';
       wrapper.append(textarea);
       textarea.value = text;
+      textarea.setAttribute('readonly', '');
 
       const title = document.createElement('h2');
       title.classList = 'title';
